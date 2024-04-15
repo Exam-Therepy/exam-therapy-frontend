@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@auth0/nextjs-auth0/client';
 import Loading from '@/components/Loading';
+import PermissionModal from '@/components/PermissionModal'
 
 export default function ExamPage({ params }) {
     const router = useRouter();
@@ -15,6 +16,43 @@ export default function ExamPage({ params }) {
     const [saved, setSaved] = useState([]);
     const [loading, setLoading] = useState(true);
     const [timeLeft, setTimeLeft] = useState(3 * 60 * 60); // 3 hours in seconds
+
+    const [isPermissionGranted, setIsPermissionGranted] = useState(false);
+
+    useEffect(() => {
+        setIsPermissionGranted(false);
+    }, []);
+
+    const handleRequestPermission = () => {
+        const element = document.documentElement;
+
+        // Request full-screen access using the Fullscreen API
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullscreen) {
+            element.webkitRequestFullscreen();
+        } else if (element.msRequestFullscreen) {
+            element.msRequestFullscreen();
+        }
+
+        // Disable keyboard functionality
+        const disableKeyboard = (e) => {
+            e.preventDefault();
+        };
+
+        // Disable right-click functionality
+        // const disableRightClick = (e) => {
+        //     e.preventDefault();
+        // };
+
+        // document.addEventListener('keydown', disableKeyboard);
+        // document.addEventListener('contextmenu', disableRightClick);
+        setIsPermissionGranted(true);
+    };
+
+
 
     const fetchQuestions = async () => {
         try {
@@ -82,6 +120,7 @@ export default function ExamPage({ params }) {
         handleNextQuestion();
     };
 
+    
     const handleSaveAndNext = () => {
         if (!responses[currentQuestionIndex]) {
             handleMarkForReview();
@@ -95,6 +134,40 @@ export default function ExamPage({ params }) {
             handleNextQuestion();
         }
     };
+
+    
+
+    const calculateButtonColor = (index) => {
+
+        if (index === currentQuestionIndex) {
+            // Blue if the button is the current active question
+            return 'bg-blue-500 text-white';
+        }
+        
+        if (markedForReview.includes(index)) {
+            if (responses[index]) {
+                // Half Green and half purple if response is selected and marked for review
+                return ' bg-gradient-to-r from-purple-500 to-green-500 relative text-white'
+            } else {
+                // Purple if marked for review without selecting response
+                return 'bg-purple-500 text-white';
+            }
+        } else if (saved.includes(index)) {
+            // Green if response is selected and saved
+            return 'bg-green-500 text-white';
+        } else if (responses[index]) {
+            // Green if response is selected and not saved
+            return 'bg-green-500 text-white';
+        } else if (index < Object.keys(responses).length) {
+            // Red if response is not selected and visited
+            return 'bg-red-500 text-white';
+        } else {
+            // Gray if not visited
+            return 'bg-gray-300 text-gray-700';
+        }
+    };
+    
+    
 
     const handleSubmit = () => {
         sessionStorage.setItem('examResponses', JSON.stringify(responses));
@@ -120,149 +193,152 @@ export default function ExamPage({ params }) {
             }${seconds}`;
     };
 
+
     return (
-        <div className="max-w-screen-lg mx-auto p-4">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="col-span-4 md:col-span-4 bg-gray-100 p-4">
-                <div className="col-span-4 md:col-span-4 bg-gray-100 p-4 flex items-center">
-                <img src={user.picture}  className="h-20 w-20 mr-4" />
-                <div>
-                  <p className="text-lg font-semibold">Candidate Name : {user.name} </p>
-                  <p>Exam Name : Demo Exam</p>
-                  <p>Subject Name : Demo Subject</p>
-                  <p className="mb-0 text-red-600 font-bold">Time Left: {formatTime(timeLeft)}</p>
-                </div>
-              </div>
-              
-                </div>
+        <div>
+            {!isPermissionGranted && <PermissionModal onRequestPermission={handleRequestPermission} />}
+            {isPermissionGranted && (
+                <div className="max-w-screen-xl mx-auto p-4">
+                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <div className="col-span-4 md:col-span-4 bg-blue-900 p-4">
+                            <div className="col-span-4 md:col-span-4 bg-gray-100 p-4 flex items-center">
+                                <img src={user.picture} className="h-20 w-20 mr-4" />
+                                <div>
+                                    <p className="text-lg font-semibold">Candidate Name : {user.name} </p>
+                                    <p>Exam Name : Demo Exam</p>
+                                    <p>Subject Name : Demo Subject</p>
+                                    <p className="mb-0 text-red-600 font-bold">Time Left: {formatTime(timeLeft)}</p>
+                                </div>
+                            </div>
 
-                {/* Show Question */}
-                <div className="col-span-4 md:col-span-3 bg-gray-100 p-4">
-                    <div className="flex justify-between mb-4">
-                        <h1 className="text-2xl font-bold">Question {currentQuestionIndex + 1}</h1>
-                    </div>
+                        </div>
 
-                    <p className="mb-4">{currentQuestion.question}</p>
-                    <ul>
-                        {currentQuestion.incorrect_answers.map((option, index) => (
-                            <li key={index} className="mb-2">
-                                <input
-                                    type="radio"
-                                    id={option}
-                                    name="answer"
-                                    value={option}
-                                    checked={responses[currentQuestionIndex] === option}
-                                    onChange={() => handleAnswerChange(option)}
-                                    className="mr-2"
-                                />
-                                <label htmlFor={option}>{option}</label>
-                            </li>
-                        ))}
-                        <li className="mb-2">
-                            <input
-                                type="radio"
-                                id={currentQuestion.correct_answer}
-                                name="answer"
-                                value={currentQuestion.correct_answer}
-                                checked={responses[currentQuestionIndex] === currentQuestion.correct_answer}
-                                onChange={() => handleAnswerChange(currentQuestion.correct_answer)}
-                                className="mr-2"
-                            />
-                            <label htmlFor={currentQuestion.correct_answer}>{currentQuestion.correct_answer}</label>
-                        </li>
-                    </ul>
+                        {/* Show Question */}
+                        <div className="col-span-4 md:col-span-3 bg-gray-100 p-4 border-2 border-indigo-600">
+                            <div className="flex justify-between mb-4">
+                                <h1 className="text-2xl font-bold">Question {currentQuestionIndex + 1}</h1>
+                            </div>
 
-                </div>
+                            <p className="mb-4">{currentQuestion.question}</p>
+                            <ul>
+                                {currentQuestion.incorrect_answers.map((option, index) => (
+                                    <li key={index} className="mb-2">
+                                        <input
+                                            type="radio"
+                                            id={option}
+                                            name="answer"
+                                            value={option}
+                                            checked={responses[currentQuestionIndex] === option}
+                                            onChange={() => handleAnswerChange(option)}
+                                            className="mr-2"
+                                        />
+                                        <label htmlFor={option}>{option}</label>
+                                    </li>
+                                ))}
+                                <li className="mb-2">
+                                    <input
+                                        type="radio"
+                                        id={currentQuestion.correct_answer}
+                                        name="answer"
+                                        value={currentQuestion.correct_answer}
+                                        checked={responses[currentQuestionIndex] === currentQuestion.correct_answer}
+                                        onChange={() => handleAnswerChange(currentQuestion.correct_answer)}
+                                        className="mr-2"
+                                    />
+                                    <label htmlFor={currentQuestion.correct_answer}>{currentQuestion.correct_answer}</label>
+                                </li>
+                            </ul>
 
-                {/* Sidebar */}
-                <div className="col-span-4 md:col-span-1 bg-gray-100 p-4">
-                    <div className="mb-4">
-                        <p className="text-sm font-semibold">Question Status</p>
-                        <ul>
-                            <li className="flex items-center mb-2">
-                                <span className="bg-green-500 w-4 h-4 rounded-full mr-2"></span>
-                                <span className="text-sm">Answered :  {Object.keys(responses).length}</span>
-                            </li>
-                            <li className="flex items-center mb-2">
-                                <span className="bg-red-500 w-4 h-4 rounded-full mr-2"></span>
-                                <span className="text-sm">Not Answered : {questions.length - Object.keys(responses).length}</span>
-                            </li>
-                            <li className="flex items-center mb-2">
-                                <span className="bg-gray-400 w-4 h-4 rounded-full mr-2"></span>
-                                <span className="text-sm">Not Visited : {questions.length - Object.keys(responses).length - markedForReview.length}</span>
-                            </li>
-                            <li className="flex items-center mb-2">
-                                <span className="bg-purple-500 w-4 h-4 rounded-full mr-2"></span>
-                                <span className="text-sm">Mark for Review :  {markedForReview.length}</span>
-                            </li>
-                        </ul>
-                    </div>
+                        </div>
 
-                    <ul className="grid grid-cols-5 gap-2">
-                        {questions.map((_, index) => (
-                            <li key={index}>
-                                <button
+                        {/* Sidebar */}
+                        <div className="col-span-4 md:col-span-1 bg-indigo-100 p-4">
+                            <div className="mb-4">
+                                <p className="text-sm font-semibold">Question Status</p>
+                                <ul>
+                                    <li className="flex items-center mb-2">
+                                        <span className="bg-green-500 w-8 h-8 rounded-full mr-2"></span>
+                                        <span className="text-sm">Answered :  {Object.keys(responses).length}</span>
+                                    </li>
+                                    <li className="flex items-center mb-2">
+                                        <span className="bg-red-500 w-8 h-8 rounded-full mr-2"></span>
+                                        <span className="text-sm">Not Answered : {questions.length - Object.keys(responses).length}</span>
+                                    </li>
+                                    <li className="flex items-center mb-2">
+                                        <span className="bg-gray-400 w-8 h-8 rounded-full mr-2"></span>
+                                        <span className="text-sm">Not Visited : {Math.max(0, questions.length - Object.keys(responses).length - markedForReview.length)}</span>
+                                    </li>
+                                    <li className="flex items-center mb-2">
+                                        <span className="bg-purple-500 w-8 h-8 rounded-full mr-2"></span>
+                                        <span className="text-sm">Mark for Review :  {markedForReview.length}</span>
+                                    </li>
+
+                                    <li className="flex items-center mb-2">
+                                    <span className=" w-8 h-8 mr-2 bg-gradient-to-r from-purple-500 to-green-500 relative text-white"></span>
+                                    <span className="text-sm w-full">Answered & Marked for Revision (will be considered for evaluation)</span>
+                                   </li>
+                                </ul>
+                            </div>
+
+                            <ul className="grid grid-cols-5 gap-2 h-72 overflow-y-auto">
+                                {questions.map((_, index) => (
+                                <li key={index}>
+                                    <button
+                                    id='questionNumber'
                                     onClick={() => setCurrentQuestionIndex(index)}
-                                    className={`block w-8 h-8 text-center rounded-lg focus:outline-none ${index === currentQuestionIndex
-                                            ? 'bg-blue-500 text-white'
-                                            : markedForReview.includes(index)
-                                                ? 'bg-purple-500 text-white'
-                                                : saved.includes(index)
-                                                    ? 'bg-green-500 text-white'
-                                                    : 'bg-gray-300 text-gray-700'
-                                        }`}
+                                    className={`block h-10 w-10 text-center rounded-full focus:outline-none hover:bg-blue-500 hover:text-white ${calculateButtonColor(index)}`}
                                 >
                                     {index + 1}
                                 </button>
-                            </li>
-                        ))}
-                    </ul>
+                                </li>
+                                ))}
+                            </ul>
 
 
 
+                        </div>
+
+                        {/* Buttons */}
+                        <div className="col-span-4 bg-gray-300 p-4">
+                            <button
+                                onClick={handleClearResponse}
+                                className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mb-2 sm:mb-0 mr-2 flex-1"
+                            >Clear</button>
+
+                            <button
+                                onClick={handleMarkForReview}
+                                disabled={currentQuestionIndex === questions.length - 1}
+                                className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
+                            > Marked For Review & Next
+
+                            </button>
+
+                            <button
+                                onClick={handlePreviousQuestion}
+                                disabled={currentQuestionIndex === 0}
+                                className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-2 sm:mb-0 mr-2 flex-1"
+                            >
+                                Previous
+                            </button>
+                            <button
+                                onClick={handleSaveAndNext}
+                                disabled={currentQuestionIndex === questions.length - 1}
+                                className="py-2 px-4 rounded bg-blue-500 text-white hover:bg-blue-600 mb-2 sm:mb-0 mr-2 flex-1"
+                            >
+                                Save & Next
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mb-2 sm:mb-0 flex-1 float-right"
+                            >
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
                 </div>
 
-                {/* Buttons */}
-                <div className="col-span-4 bg-gray-100 p-4">
-                    <button
-                        onClick={handleClearResponse}
-                        className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600 mb-2 sm:mb-0 mr-2 flex-1"
-                    >Clear</button>
-
-                    <button
-                        onClick={handleMarkForReview}
-                        disabled={currentQuestionIndex === questions.length - 1}
-                        className="bg-yellow-500 text-white py-2 px-4 rounded hover:bg-yellow-600 mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
-                    > Marked For Review & Next
-
-                    </button>
-
-                    <button
-                        onClick={handlePreviousQuestion}
-                        disabled={currentQuestionIndex === 0}
-                        className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 mb-2 sm:mb-0 mr-2 flex-1"
-                    >
-                        Previous
-                    </button>
-                    <button
-                        onClick={handleSaveAndNext}
-                        disabled={currentQuestionIndex === questions.length - 1}
-                        className={`${saved.includes(currentQuestionIndex)
-                                ? 'bg-green-500 text-white'
-                                : 'bg-blue-500 text-white'
-                            } py-2 px-4 rounded hover:bg-blue-600 mb-2 sm:mb-0 mr-2 flex-1`}
-                    >
-                        {saved.includes(currentQuestionIndex) ? 'Saved & Next' : 'Save & Next'}
-                    </button>
-                    <button
-                        onClick={handleSubmit}
-                        className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 mb-2 sm:mb-0 flex-1 float-right"
-                    >
-                        Submit
-                    </button>
-
-                </div>
-            </div>
+            )}
         </div>
     )
 }
