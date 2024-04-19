@@ -1,4 +1,4 @@
-export default function CategoryCard(param) {
+export default function Card(param) {
     return (
         <div className="max-w-xs p-3 bg-white border border-gray-200 rounded-lg shadow">
             <div className="flex justify-center">

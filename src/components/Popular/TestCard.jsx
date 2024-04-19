@@ -3,8 +3,8 @@ import Link from "next/link"
 
 export default function Card(param) { 
     return(
-      <div className="flex-shrink-0 w-64 h-74 bg-gray-100 m-4 ">
-        <img className="w-full h-32" src="/cn.png" alt="Sunset in the mountains"/>
+      <div className="flex-shrink-0 w-74 h-74 bg-white border border-gray-200 rounded-lg shadow m-4">
+        <img className="w-full h-32 rounded-t-lg" src="/cn.png" alt="Sunset in the mountains"/>
       <div className="px-6 py-4">
         <div className="font-bold text-xl mb-2">GATE MOCK TEST</div>
         <ul className="text-gray-700 text-base">

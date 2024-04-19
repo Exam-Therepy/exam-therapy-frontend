@@ -3,12 +3,12 @@ import Link from "next/link";
 export default function viewtest({ params }) {
   return (
     <section className="text-gray-700 body-font overflow-hidden">
-      <div className="container px-5 py-24 mx-auto">
+      <div className="container px-5 py-10 mx-auto">
         <div className="lg:w-4/5 mx-auto flex flex-wrap">
 
           <div className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 h-3/5">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Computer Networks Mock Test 2024</h5>
-              <div className="bg-gray-100 w-2/5">
+              <div className="bg-gray-100">
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Questions : 100</p>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Max Marks : 200</p>
               <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Time : 3hrs</p></div>

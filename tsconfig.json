@@ -21,6 +21,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/(home)/page.tsx", "src/components/Dashboard/ProfileModal.jsx", "src/components/Dashboard/Sidebar.jsx", "src/components/Dashboard/DrawerButton.jsx", "src/components/Dashboard/Header.jsx"],
   "exclude": ["node_modules"]
 }

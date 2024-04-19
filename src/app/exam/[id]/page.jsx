@@ -210,7 +210,6 @@ export default function ExamPage({ params }) {
                                     <p className="mb-0 text-red-600 font-bold">Time Left: {formatTime(timeLeft)}</p>
                                 </div>
                             </div>
-
                         </div>
 
                         {/* Show Question */}

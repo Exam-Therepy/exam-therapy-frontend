@@ -3,7 +3,8 @@ import { use, useEffect, useState } from 'react';
 import { useUser } from "@auth0/nextjs-auth0/client";
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import SearchBox from '../components/SearchBox'
+import SearchBox from './SearchBox'
+import Link from 'next/link';
 
 
 export default function UserHeader() {
@@ -12,7 +13,7 @@ export default function UserHeader() {
     const pathname = usePathname();
     const newPath = pathname.split('/')[1];
 
-    
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
@@ -31,12 +32,16 @@ export default function UserHeader() {
     return (
         <header className="bg-white shadow-md">
             <div className="container mx-auto py-4 px-6 flex justify-between items-center">
-                <div className="flex items-center">
-                    <h1 className="text-xl font-bold text-gray-800">Mock Test</h1>
+
+                <div>
+                    <Link href="/" className="flex items-center">
+                        <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" />
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white hidden md:block">Mock Test</span>
+                    </Link>
                 </div>
-                
+
                 <div className='w-3/5'>
-                  <SearchBox/>
+                    <SearchBox />
                 </div>
 
                 <div className="flex space-x-4">
@@ -45,11 +50,12 @@ export default function UserHeader() {
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                     </nav>
-                    {!user ? <a href="/api/auth/login" ><button className="hidden md:block bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm">Login</button></a> :
-                    <a href="/api/auth/logout"><button className="hidden md:block bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm">Logout</button> </a>}
-                    
-                        <div className="md:hidden">
 
+                
+                    {!user ? <a href="/api/auth/login" ><button className="hidden md:block bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm">Login</button></a> :
+                        <a href="/api/auth/logout"><button className="hidden md:block bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm">Logout</button> </a>}
+
+                    <div className="md:hidden">
                         <button onClick={toggleMenu} className="block text-gray-800 hover:text-gray-600 focus:outline-none">
                             <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
                                 {isMenuOpen ? (
@@ -77,7 +83,7 @@ export default function UserHeader() {
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Contact</a>
-                        <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Login</button>
+                        {user ? <a href='/api/auth/logout'>Logout</a> : <a href='/api/auth/login'>Login</a>}
                     </nav>
                 </div>
             )}
