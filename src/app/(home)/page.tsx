@@ -1,11 +1,9 @@
-import Popular from '@/components/Popular/PopularContainer'
 import Category from '@/components/Categoires/Container'
-import Carousel from "@/components/Carousel"
+import HeroSection from "@/components/Hero"
 export default function Home(){
     return(
-        <main className='xl:m-10 lg:m-10'>
-            <Carousel/>
-            <Popular/>
+        <main className='bg-gradient-to-b from-sky-200 via-sky-200 to-white'>
+            <HeroSection/>
             <Category/>
         </main>
     )
