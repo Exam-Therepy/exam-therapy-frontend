@@ -1,5 +1,6 @@
 import React from "react";
-import {Card, CardHeader, CardBody, CardFooter, Divider, Link, Image} from "@nextui-org/react";
+import {Card, CardHeader, CardBody, CardFooter, Divider,Image} from "@nextui-org/react";
+import Link from "next/link";
 
 export default function MockCard() {
   return (
@@ -25,10 +26,7 @@ export default function MockCard() {
       </CardBody>
       <Divider/>
       <CardFooter>
-        <Link
-          showAnchorIcon
-          href="/viewtest/id123"
-        >
+        <Link href="/viewtest/id123" className="text-blue-900">
           View Mock Test
         </Link>
       </CardFooter>

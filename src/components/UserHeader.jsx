@@ -30,7 +30,7 @@ export default function UserHeader() {
     }
 
     return (
-        <header className="bg-[#FCFCFC]">
+        <header className="bg-[#FCFCFC] shadow-md">
             <div className="container mx-auto py-4 px-6 flex justify-between items-center">
 
                 <div>
