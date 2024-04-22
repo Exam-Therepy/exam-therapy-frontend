@@ -1,6 +1,6 @@
 const HeroSection = () => {
   return (
-    <div className="h-3/4 sm:h-screen bg-gradient-to-b from-white via-pink-200 to-sky-200 flex items-center justify-center">
+    <div className="lg:h-screen bg-gradient-to-b from-white via-pink-200 to-sky-200 flex items-center justify-center h-96">
       <div className="text-center px-4 sm:px-6 lg:px-8">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-800 leading-tight">
           Start Your Mock Test <span className="text-pink-600">Journey</span>

@@ -1,12 +1,19 @@
-export default function Card(param) {
-    return (
-        <div className="p-3 bg-white border border-gray-200 rounded-lg shadow-md h-44 w-44 flex flex-col justify-center">
-            <div className="flex justify-center">
-                <img src="/gate.png" alt="Logo" className="w-16 h-16" />
-            </div>
-            <div className="text-center">
-                <h2 className="text-lg font-bold text-gray-800">GATE & NET</h2>
-            </div>
+import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-org/react";
+
+export default function CategoryCard() {
+
+  return (
+    <Card className="max-w-[200px]">
+      <CardHeader className="justify-between">
+        <div className="flex gap-5">
+          <Avatar isBordered radius="full" size="lg" src="/gate.png" />
+          <div className="flex flex-col gap-1 items-start justify-center">
+            <h4 className="text-small font-semibold leading-none text-default-600">GATE</h4>
+          </div>
         </div>
-    )
+      </CardHeader>
+      <CardBody className="px-3 py-0 text-small text-default-400">
+      </CardBody>
+    </Card>
+  );
 }

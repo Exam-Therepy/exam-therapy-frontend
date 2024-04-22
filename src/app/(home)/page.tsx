@@ -1,10 +1,14 @@
 import Category from '@/components/Categoires/Container'
+import AllMockTests from '@/components/AllMocks/Container'
 import HeroSection from "@/components/Hero"
+import StatsHero from '@/components/StatsHero'
 export default function Home(){
     return(
-        <main className='bg-gradient-to-b from-sky-200 via-sky-200 to-white'>
+        <main className='bg-[#FFFFFF]'>
             <HeroSection/>
             <Category/>
+            <AllMockTests/>
+            <StatsHero/>
         </main>
     )
 }
