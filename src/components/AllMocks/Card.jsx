@@ -8,13 +8,13 @@ export default function MockCard() {
       <CardHeader className="flex gap-3">
         <Image
           alt="mock test logo"
-          height={40}
+          height={60}
+          width={60}
           radius="sm"
-          src="/neet.png"
-          width={40}
+          src="/ssc.jpeg"
         />
         <div className="flex flex-col">
-          <p className="text-md">NEET Full Test Series</p>
+          <p className="text-md">SSC CGL 2024</p>
           <p className="text-small text-default-500">Free</p>
         </div>
       </CardHeader>

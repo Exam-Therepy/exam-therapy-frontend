@@ -7,7 +7,7 @@ const HeroSection = () => {
 
   return (
     <div className="bg-gray-300 text-black py-20">
-      <div className="container mx-auto px-10">
+      <div className="container mx-auto lg:px-20 px-10 xl:px-20">
         <h1 className="text-4xl font-bold mb-4">Our Platform Statistics</h1>
         <p className="text-lg mb-8">Start your journey towards success today!</p>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">

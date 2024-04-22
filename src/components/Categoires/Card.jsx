@@ -3,12 +3,12 @@ import {Card, CardHeader, CardBody, CardFooter, Avatar, Button} from "@nextui-or
 export default function CategoryCard() {
 
   return (
-    <Card className="max-w-[200px]">
+    <Card className="lg:w-[150px]">
       <CardHeader className="justify-between">
-        <div className="flex gap-5">
-          <Avatar isBordered radius="full" size="lg" src="/gate.png" />
+        <div className="flex gap-3">
+          <Avatar isBordered radius="full" size="lg" src="/nta.jpeg" />
           <div className="flex flex-col gap-1 items-start justify-center">
-            <h4 className="text-small font-semibold leading-none text-default-600">GATE</h4>
+            <h4 className="text-small font-semibold leading-none text-default-600">JEE MAIN</h4>
           </div>
         </div>
       </CardHeader>

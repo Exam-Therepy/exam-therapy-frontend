@@ -9,7 +9,7 @@ export default function Footer(param) {
     }
 
     return (
-        <footer className=" text-black mt-2 ">
+        <footer className=" mx-4 text-black mt-2 lg:mx-20 ">
             <div className="mx-auto w-full max-w-screen-xl p-3 py-6 lg:py-8">
                 <div className="md:flex md:justify-between">
                     <div className="mb-6 md:mb-0">
