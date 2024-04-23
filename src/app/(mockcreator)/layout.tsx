@@ -10,16 +10,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-    setIsSmallSidebar(!isSmallSidebar); // Toggle small sidebar state
+    setIsSmallSidebar(!isSmallSidebar); 
   };
 
   return (
-    <div className="flex h-screen bg-white">
-      <Sidebar isSmall={isSmallSidebar} /> {/* Pass isSmall state */}
-      <div className="flex flex-col flex-1">
-        <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-grow p-4 overflow-y-auto mb-5">{children}</main>
-      </div>
+    <div className="flex h-screen bg-white flex-col"> 
+    <Header toggleSidebar={toggleSidebar} />
+    <div className="flex flex-1"> 
+      <Sidebar isSmall={isSmallSidebar} />
+      <main className="flex-grow p-4 overflow-y-auto mb-5">{children}</main>
     </div>
+  </div>
+  
   );
 }

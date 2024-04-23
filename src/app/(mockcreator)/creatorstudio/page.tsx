@@ -1,9 +1,9 @@
 import AnalyticsCard from '@/components/Dashboard/AnalyticsCard'
 
-const Dashboard = () => {
+const CreatorDashboard = () => {
   return (
       <AnalyticsCard/>
   );
 };
 
-export default Dashboard;
+export default CreatorDashboard;

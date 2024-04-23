@@ -1,38 +1,28 @@
 'use client'
-import { use, useEffect, useState } from 'react';
 import { useUser } from "@auth0/nextjs-auth0/client";
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import SearchBox from './SearchBox'
+import { useState } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
-
+import SearchBox from './SearchBox';
+import { Avatar } from "@nextui-org/react";
 
 export default function UserHeader() {
     const { user } = useUser();
-
-    const pathname = usePathname();
-    const newPath = pathname.split('/')[1];
-
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isProfileOpen, setIsProfileOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
-
-    if (newPath === 'exam') {
-        return
-    }
-
-    if (newPath === 'admin') {
-        return <header>Admin Header</header>
-    }
+    const toggleProfile = () => {
+        setIsProfileOpen(!isProfileOpen);
+    };
 
     return (
         <header className="bg-[#FCFCFC] shadow-md">
             <div className="container mx-auto py-4 px-6 flex justify-between items-center">
-
                 <div>
                     <Link href="/" className="flex items-center">
                         <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 me-3" alt="FlowBite Logo" />
@@ -40,24 +30,39 @@ export default function UserHeader() {
                     </Link>
                 </div>
 
-                <div className='w-3/5'>
+                <div className='w-4/5'>
                     <SearchBox />
                 </div>
 
-                <div className="flex space-x-4">
+                <div className="flex justify-center space-x-4 mt-2">
                     <nav className="hidden md:flex space-x-4 py-1">
                         <a href="#" className="text-gray-800 hover:text-gray-600">Categories</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                     </nav>
 
-                
-                    {!user ? <a href="/api/auth/login" ><button className="hidden md:block bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm">Login</button></a> :
-                        <a href="/api/auth/logout"><button className="hidden md:block bg-red-700 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm">Logout</button> </a>}
+                    {user ? (
+                        <div className="relative space-x-4">
+                            <button onClick={toggleProfile}>
+                                <Avatar isBordered src={user.picture} size="sm" />
+                            </button>
+                            {isProfileOpen && (
+                                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10">
+                                    <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Profile</a>
+                                    <Link href="/studentdashboard" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Dashboard</Link>
+                                    <a href="/api/auth/logout" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</a>
+                                </div>
+                            )}
+                        </div>
+                    ) : (
+                        <a href="/api/auth/login">
+                            <button className="bg-blue-700 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm hidden md:block">Login</button>
+                        </a>
+                    )}
 
                     <div className="md:hidden">
-                        <button onClick={toggleMenu} className="block text-gray-800 hover:text-gray-600 focus:outline-none">
-                            <svg className="h-6 w-6 fill-current" viewBox="0 0 24 24">
+                        <button onClick={toggleMenu} className="block text-gray-800 hover:text-gray-600 focus:outline-none mb-3">
+                            <svg className="h-8 w-8 fill-current" viewBox="0 0 24 24">
                                 {isMenuOpen ? (
                                     <path
                                         fillRule="evenodd"
@@ -76,14 +81,15 @@ export default function UserHeader() {
                     </div>
                 </div>
             </div>
+
             {isMenuOpen && (
-                <div className="md:hidden bg-gray-100">
+                <div className="md:hidden absolute right-0 mt-2 w-48 bg-white rounded-md overflow-hidden shadow-xl z-10">
                     <nav className="flex flex-col items-center space-y-4 py-4">
                         <a href="#" className="text-gray-800 hover:text-gray-600">Home</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Contact</a>
-                        {user ? <a href='/api/auth/logout'>Logout</a> : <a href='/api/auth/login'>Login</a>}
+                        {user ? <a href='#' onClick={toggleProfile}>Profile</a> : <a href='/api/auth/login'>Login</a>}
                     </nav>
                 </div>
             )}

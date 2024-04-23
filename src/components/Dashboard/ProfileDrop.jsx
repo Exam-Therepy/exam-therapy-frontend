@@ -1,5 +1,7 @@
 import { useState } from 'react';
-import { FaUser, FaCreditCard, FaSignOutAlt } from 'react-icons/fa';
+import { useUser } from "@auth0/nextjs-auth0/client";
+import { Avatar } from '@nextui-org/react';
+import Link from 'next/link';
 
 const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -9,8 +11,10 @@ const ProfileDropdown = () => {
   };
 
   const handleLogout = () => {
-    // Handle logout logic here
+    
   };
+
+  const {user}=useUser();
 
   return (
     <div className="relative">
@@ -18,7 +22,7 @@ const ProfileDropdown = () => {
         onClick={toggleDropdown}
         className="flex items-center justify-center w-8 h-8 rounded-full bg-gray-200 text-gray-600 focus:outline-none"
       >
-        <FaUser />
+       <Avatar isBordered size="sm" />
       </button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
