@@ -53,14 +53,14 @@ const Sidebar = ({ isSmall }) => {
               </a>
             </li>
             <li>
-              <a
-                href="#"
+              <Link
+                href="/creatorstudio/products"
                 className={`flex items-center py-2 px-4 text-sm ${activeLink === 'products' ? 'bg-gray-200 text-gray-900' : 'text-gray-800 hover:bg-gray-200'}`}
                 onClick={() => handleSetActiveLink('products')}
               >
                 <FaUsers className={`h-6 w-6 ${isSmall ? 'mr-0' : 'mr-2'}`} />
                 {!isSmall && 'Products'}
-              </a>
+              </Link>
             </li>
             <li>
               <a

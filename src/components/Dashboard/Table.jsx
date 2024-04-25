@@ -6,7 +6,7 @@ const Table = ({ data, currentPage, itemsPerPage }) => {
   const currentItems = data.slice(startIndex, endIndex);
 
   return (
-    <table className="min-w-full bg-white p-4 shadow-lg rounded-lg">
+    <table className="min-w-full bg-white p-4 shadow-md rounded-lg">
       <thead>
         <tr>
           <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">

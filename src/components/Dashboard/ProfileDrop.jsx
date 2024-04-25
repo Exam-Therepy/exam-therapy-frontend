@@ -18,7 +18,7 @@ const ProfileDropdown = () => {
 
   return (
     <div className="relative">
-      <button onClick={toggleDropdown}> <Avatar isBordered size="sm" /></button>
+      <button onClick={toggleDropdown}> <Avatar isBordered className="w-6 h-6 text-tiny mt-3" /></button>
       {isOpen && (
         <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-md z-10">
           <button

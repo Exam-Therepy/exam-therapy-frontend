@@ -4,7 +4,7 @@ import CreateQuestions from "@/components/Dashboard/CreateQuestions/MultiStepFor
 
 export default function CreateMocktest(){
     return (
-        <div className="flex justify-center items-center min-h-screen bg-gray-200">
+        <div className="container mx-auto">
             <CreateQuestions/>
         </div>
       );

@@ -28,7 +28,7 @@ const MultiStepForm = () => {
   };
 
   return (
-    <div className="w-full h-screen bg-white shadow-inner p-6">
+    <div className=" h-screen bg-white p-6 shadow-md rounded-lg overflow-y-auto">
       {step === 1 && <Step1 formData={formData} setFormData={setFormData} onNext={handleNextStep} />}
       {step === 2 && <Step2 questions={questions} setQuestions={setQuestions} onPrev={handlePrevStep} onNext={handleNextStep} />}
       {step === 3 && <Step3 formData={formData} setFormData={setFormData} questions={questions} setQuestions={setQuestions} onPrev={handlePrevStep} onNext={handleNextStep} />}
