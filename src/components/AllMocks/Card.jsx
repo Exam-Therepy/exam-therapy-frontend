@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function MockCard() {
   return (
-    <Card className="max-w-[400px]">
+    <Card className="max-w-[400px] min-h-[300px]">
       <CardHeader className="flex gap-3">
         <Image
           alt="mock test logo"

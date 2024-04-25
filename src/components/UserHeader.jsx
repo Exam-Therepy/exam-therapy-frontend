@@ -35,10 +35,10 @@ export default function UserHeader() {
                 </div>
 
                 <div className="flex justify-center space-x-4 mt-2">
-                    <nav className="hidden md:flex space-x-4 py-1">
+                    <nav className="hidden md:flex space-x-4 py-1 w-96 justify-center">
+                        <Link href="/join" className="text-gray-800 hover:text-gray-600">Join as a Creator</Link>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Categories</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
-                        <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                     </nav>
 
                     {user ? (
@@ -89,6 +89,7 @@ export default function UserHeader() {
                         <a href="#" className="text-gray-800 hover:text-gray-600">About</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Services</a>
                         <a href="#" className="text-gray-800 hover:text-gray-600">Contact</a>
+                        <Link href="/join" className="text-gray-800 hover:text-gray-600">Join as a Creator</Link>
                         {user ? <a href='#' onClick={toggleProfile}>Profile</a> : <a href='/api/auth/login'>Login</a>}
                     </nav>
                 </div>

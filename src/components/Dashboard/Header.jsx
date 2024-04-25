@@ -4,18 +4,23 @@ import { FaBars } from 'react-icons/fa';
 const Header = ({ toggleSidebar }) => {
 
   return (
-    <header className="bg-red-600 text-white shadow-md">
-      <div className="flex justify-between items-center px-4 py-2">
+   <header className="bg-[#EDF2F9] text-black">
+    <div className="flex justify-between items-center px-5 py-3">
+      <div className="flex items-center">
         <button
-          className="text-white focus:outline-none"
+          className="text-blue-900 focus:outline-none mr-3"
           onClick={toggleSidebar}
         >
-         <FaBars/>
+          <FaBars/>
         </button>
-        <div className="text-lg font-semibold">Mock Test Creator Studio</div>
-         <Profile/>
+        <div className=" font-semibold">Mock Test Studio</div>
       </div>
-    </header>
+      <div className="hidden md:block"> {/* Show on medium and larger screens */}
+        <Profile/>
+      </div>
+    </div>
+  </header>
+  
   );
 };
 

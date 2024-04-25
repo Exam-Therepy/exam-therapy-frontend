@@ -12,12 +12,13 @@ const Sidebar = ({ isSmall }) => {
   };
 
   return (
-    <aside className={`bg-white shadow-md ${isSmall ? 'w-30' : 'w-64'} transition-all duration-300`}>
+    <aside className={`bg-[#EDF2F9] ${isSmall ? 'w-30' : 'w-64'} transition-all duration-300`}>
       <div className="p-4">
         <div className="mb-4">
-          <div className="flex items-center justify-center w-full h-12 bg-gray-200 text-gray-600 rounded-md mb-2">
-            Wallet
-          </div>
+          {isSmall? <span></span> :<div className="flex flex-col items-center justify-center w-full h-32 bg-sky-400 text-white rounded-md mb-2">
+          <h2>Wallet</h2>
+          <span>10000 INR</span>
+        </div>}
         </div>
         <nav>
           <ul>

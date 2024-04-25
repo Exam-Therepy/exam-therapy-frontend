@@ -13,12 +13,13 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     setIsSmallSidebar(!isSmallSidebar); 
   };
 
+
   return (
-    <div className="flex h-screen bg-white flex-col"> 
+    <div className="flex h-screen flex-col bg-[#EDF2F9]"> 
     <Header toggleSidebar={toggleSidebar} />
-    <div className="flex flex-1"> 
+    <div className="flex flex-1 bg-[#EDF2F9]"> 
       <Sidebar isSmall={isSmallSidebar} />
-      <main className="flex-grow p-4 overflow-y-auto mb-5">{children}</main>
+      <main className="flex-grow p-4 overflow-y-auto h-screen mx-5 no-scrollbar">{children}</main>
     </div>
   </div>
   
